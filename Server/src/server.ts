@@ -5,7 +5,7 @@ import config from "config";
 import connectToDatabase from "./db/connect";
 // import "./routes.ts";
 import log from "./logger";
-// import routes from "./routes";
+import router from "./routes";
 // import { deserializeUser } from "./middleware";
 
 const port = config.get("port") as number;
