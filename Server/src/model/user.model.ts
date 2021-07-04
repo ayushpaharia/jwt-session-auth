@@ -21,15 +21,15 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre("save", async function (next: mongoose.HookNextFunction) {
-  let user = this as UserDocument;
+  let user = this as UserDocument; // selects incoming save data
 
   // hash pass if modified or new
   if (!user.isModified("password")) return next();
 
   // additional data
-  const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
+  const salt = await bcrypt.genSalt(config.get("saltWorkFactor")); // salts the data 'n' number of times (n : saltWorkFactor)
 
-  const hash = await bcrypt.hashSync(user.password, salt);
+  const hash = await bcrypt.hashSync(user.password, salt); // return hashed password
 
   // Replace password with hash
   user.password = hash;

@@ -9,7 +9,7 @@ import {
 
 export async function createUserHandler(req: Request, res: Response) {
   try {
-    if (checkIfUserExists(req.body))
+    if (!checkIfUserExists(req.body))
       return res.send({ message: "User with this email already exists!" });
 
     const user = await createUser(req.body);

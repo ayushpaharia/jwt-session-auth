@@ -7,6 +7,7 @@ import log from "./logger";
 import { healthCheckRoute, userRoutes } from "./routes";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 const port = config.get("port") as number;
 const host = config.get("host") as string;
@@ -22,6 +23,7 @@ app.use(
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Routes
 app.use(healthCheckRoute);
