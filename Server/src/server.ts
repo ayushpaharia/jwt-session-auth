@@ -24,7 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use(healthCheckRoute, userRoutes);
+app.use(healthCheckRoute);
+app.use(userRoutes);
 
 app.listen(port, host, () => {
   log.info(`Server listing at http://${host}:${port}/`);

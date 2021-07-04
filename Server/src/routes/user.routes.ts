@@ -25,5 +25,3 @@ userRoutes.post(
 userRoutes.get("/api/users", getUserHandler);
 
 export default userRoutes;
-
-// export { default as validate } from "./validateRequest";
