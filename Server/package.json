@@ -11,6 +11,7 @@
   "author": "ayushpaharia",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.6",
     "cors": "^2.8.5",
@@ -28,6 +29,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/config": "^0.0.38",
     "@types/cors": "^2.8.10",
