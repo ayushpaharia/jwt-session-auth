@@ -14,6 +14,7 @@ export async function createUser(input: DocumentDefinition<UserDocument>) {
     throw new Error(err);
   }
 }
+
 export async function checkIfUserExists(query: FilterQuery<UserDocument>) {
   try {
     const user = await User.findOne({ email: query.email }).lean();

@@ -6,7 +6,7 @@ import {
 } from "../controller/user.controller";
 import requiresUser from "../middleware/requiresUser";
 import validateRequest from "../middleware/validateRequest";
-import { createUserSchema, editUserSchema } from "../schema/user.schema";
+import { createOrEditUserSchema } from "../schema/user.schema";
 
 const userRoutes: Router = express.Router();
 
@@ -16,7 +16,7 @@ const userRoutes: Router = express.Router();
  */
 userRoutes.post(
   "/api/users",
-  validateRequest(createUserSchema),
+  validateRequest(createOrEditUserSchema),
   createUserHandler
 );
 
@@ -33,7 +33,7 @@ userRoutes.get("/api/users", getUserHandler);
 //  */
 // userRoutes.put(
 //   "/api/users",
-//   [validateRequest(editUserSchema), requiresUser],
+//   [validateRequest(createOrEditUserSchema), requiresUser],
 //   editUserHandler
 // );
 

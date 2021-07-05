@@ -14,21 +14,28 @@ import {
 
 export async function createUserHandler(req: Request, res: Response) {
   try {
+    // 1. Check if user Exists
     if (!checkIfUserExists(req.body))
-      return res.send({ message: "User with this email already exists!" });
-
+      return res.send({
+        user: omit(req.body.toJSON(), ["password", "passwordConfirmation"]),
+        message: "User with this email already exists!",
+      });
+    // 2. Create a user and hash the password in model
     const user = await createUser(req.body);
-    return res.send(omit(user.toJSON(), "password"));
+    return res.send({
+      user: omit(user.toJSON(), "password"),
+      message: "User Created!",
+    });
   } catch (err) {
     log.error(err);
-    res.status(409).send(err.message);
+    res.status(409).send({ user: null, message: err.message });
   }
 }
 
 export async function getUserHandler(req: Request, res: Response) {
   try {
+    // 1. Find all users
     const users = await getUsers();
-
     return res.send(
       users.map((item) =>
         omit(item.toJSON(), [

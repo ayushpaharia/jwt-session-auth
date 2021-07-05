@@ -1,49 +1,49 @@
-// import { get } from "lodash";
-// import { Request, Response, NextFunction } from "express";
-// import { decode } from "../utils/jwt.utils";
-// import { reIssueAccessToken } from "../service/session.service";
+import { get } from "lodash";
+import { Request, Response, NextFunction } from "express";
+import { decode } from "../utils/jwt.utils";
+import { reIssueAccessToken } from "../service/session.service";
 
-// const deserializeUser = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const accessToken = get(req, "headers.authorization", "").replace(
-//     /^Bearer\s/,
-//     ""
-//   );
+const deserializeUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const accessToken = get(req, "headers.authorization", "").replace(
+    /^Bearer\s/,
+    ""
+  );
 
-//   const refreshToken = get(req, "headers.x-refresh");
+  const refreshToken = get(req, "headers.x-refresh");
 
-//   if (!accessToken) return next();
+  if (!accessToken) return next();
 
-//   const { decoded, expired } = decode(accessToken);
+  const { decoded, expired } = decode(accessToken);
 
-//   if (decoded) {
-//     console.log(decoded, "decoded");
-//     // @ts-ignore
-//     req.user = decoded;
+  if (decoded) {
+    console.log(decoded, "decoded");
+    // @ts-ignore
+    req.user = decoded;
 
-//     return next();
-//   }
+    return next();
+  }
 
-//   if (expired && refreshToken) {
-//     const newAccessToken = await reIssueAccessToken({ refreshToken });
+  if (expired && refreshToken) {
+    const newAccessToken = await reIssueAccessToken({ refreshToken });
 
-//     if (newAccessToken) {
-//       // Add the new access token to the response header
-//       res.setHeader("x-access-token", newAccessToken);
+    if (newAccessToken) {
+      // Add the new access token to the response header
+      res.setHeader("x-access-token", newAccessToken);
 
-//       const { decoded } = decode(newAccessToken);
+      const { decoded } = decode(newAccessToken);
 
-//       // @ts-ignore
-//       req.user = decoded;
-//     }
+      // @ts-ignore
+      req.user = decoded;
+    }
 
-//     return next();
-//   }
+    return next();
+  }
 
-//   return next();
-// };
+  return next();
+};
 
-// export default deserializeUser;
+export default deserializeUser;
