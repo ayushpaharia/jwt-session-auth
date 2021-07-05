@@ -16,7 +16,6 @@ const sessionRoutes: Router = Router();
  */
 sessionRoutes.post(
   "/api/sessions",
-
   validateRequest(createUserSessionSchema),
   createUserSessionHandler
 );

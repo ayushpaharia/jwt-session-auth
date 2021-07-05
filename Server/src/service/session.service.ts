@@ -24,7 +24,7 @@ export async function createAccessToken({
 }) {
   // Build and return the new access token
   const accessToken = sign(
-    { ...user, session: session._id },
+    { ...user, session: session._id }, // payload
     { expiresIn: config.get("accessTokenTtl") }
   );
   return accessToken;

@@ -11,26 +11,37 @@ import { sign } from "../utils/jwt.utils";
 import { get } from "lodash";
 
 export async function createUserSessionHandler(req: Request, res: Response) {
-  // Validate email and password (service)
+  // Validate email and password
   const user = await validatePassword(req.body);
 
   if (!user) return res.status(401).send("Invalid username or password");
 
-  // Create a session (service)
+  // Create a session
   const session = await createSession(user._id, req.get("user-agent") || "");
 
-  // Create an access token (utility)
+  // Create an access token
   const accessToken = await createAccessToken({
-    user, 
+    user,
     session,
   });
 
-  // Create refresh token (utility)
+  // Create refresh token
   const refreshToken = sign(session, {
     expiresIn: config.get("refreshTokenTtl"),
   });
   // Send refresh and access token back to user
-  return res.send({ accessToken, refreshToken });
+  // Refresh token as a cookie and accessToken as a response
+  // return res.send({ accessToken, refreshToken });
+
+  let options = {
+    maxAge: 1000 * 60 * 60 * 24 * 365, // would expire after 1 year
+    httpOnly: true, // The cookie only accessible by the web server
+    signed: true, // Indicates if the cookie should be signed
+  };
+  return res
+    .status(200)
+    .send({ accessToken })
+    .cookie("refreshToken", refreshToken, options);
 }
 
 export async function invalidateUserSessionHandler(
